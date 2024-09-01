@@ -379,7 +379,12 @@ add_executable(${PROJECT_NAME}
 	${DSView_RESOURCES_RCC}
 )
 
-target_link_libraries(${PROJECT_NAME} ${DSVIEW_LINK_LIBS})
+execute_process(COMMAND "python3-config" "--embed" "--ldflags"
+    OUTPUT_VARIABLE PYTHON_LDFLAGS
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+target_link_libraries(${PROJECT_NAME} ${DSVIEW_LINK_LIBS} ${PYTHON_LDFLAGS})
 
 if(WIN32)
 # Pass -mwindows so that no "DOS box" will open when PulseView is started.
